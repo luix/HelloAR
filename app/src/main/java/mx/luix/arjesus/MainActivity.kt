@@ -6,10 +6,7 @@ import android.util.Log
 import android.view.Choreographer
 import android.view.SurfaceView
 import com.google.android.filament.Skybox
-import com.google.android.filament.utils.KtxLoader
-import com.google.android.filament.utils.ModelViewer
-import com.google.android.filament.utils.Utils
-import com.google.android.filament.utils.rotation
+import com.google.android.filament.utils.*
 import java.nio.ByteBuffer
 
 //import com.google.ar.sceneform
@@ -115,5 +112,15 @@ class MainActivity : AppCompatActivity() {
         KtxLoader.createSkybox(modelViewer.engine, buffer).apply {
             modelViewer.scene.skybox = this
         }
+    }
+    
+    private fun Int.getTransform(): Mat4 {
+        val tm = modelViewer.engine.transformManager
+        return Mat4.of(*tm.getTransform(tm.getInstance(this), null))
+    }
+
+    private fun Int.setTransform(mat: Mat4) {
+        val tm = modelViewer.engine.transformManager
+        tm.setTransform(tm.getInstance(this), mat.toFloatArray())
     }
 }
