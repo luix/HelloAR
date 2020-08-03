@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Choreographer
 import android.view.SurfaceView
 import com.google.android.filament.Skybox
+import com.google.android.filament.utils.KtxLoader
 import com.google.android.filament.utils.ModelViewer
 import com.google.android.filament.utils.Utils
 import java.nio.ByteBuffer
@@ -36,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         modelViewer = ModelViewer(surfaceView)
         surfaceView.setOnTouchListener(modelViewer)
         loadGlb("DamagedHelmet")
+        loadEnvironment("venetian_crossroads_2k")
         modelViewer.scene.skybox = Skybox.Builder().build(modelViewer.engine)
     }
 
@@ -65,5 +67,14 @@ class MainActivity : AppCompatActivity() {
         val bytes = ByteArray(input.available())
         input.read(bytes)
         return ByteBuffer.wrap(bytes)
+    }
+
+    private fun loadEnvironment(ibl: String) {
+        // Create the indirect light source and add it to the scene.
+        var buffer = readAsset("envs/$ibl/{ibl}_ibl.ktx")
+        KtxLoader.createIndirectLight(modelViewer.engine, buffer).apply {
+            intensity = 50_000f
+            modelViewer.scene.indirectLight = this
+        }
     }
 }
