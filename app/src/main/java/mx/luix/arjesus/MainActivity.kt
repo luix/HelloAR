@@ -2,12 +2,14 @@ package mx.luix.arjesus
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Choreographer
 import android.view.SurfaceView
 import com.google.android.filament.Skybox
 import com.google.android.filament.utils.KtxLoader
 import com.google.android.filament.utils.ModelViewer
 import com.google.android.filament.utils.Utils
+import com.google.android.filament.utils.rotation
 import java.nio.ByteBuffer
 
 //import com.google.ar.sceneform
@@ -22,14 +24,27 @@ class MainActivity : AppCompatActivity() {
         private val startTime = System.nanoTime()
         override fun doFrame(currentTime: Long) {
             val seconds = (currentTime - startTime).toDouble() / 1_000_000_000
+            Log.d("Choreographer Animator", "seconds: $seconds")
             choreographer.postFrameCallback(this)
             modelViewer.animator?.apply {
+                Log.d("Choreographer Animator", "animation count: $animationCount")
                 if (animationCount > 0) {
                     applyAnimation(0, seconds.toFloat())
+                    Log.d("Choreographer Animator", "animation name: ${getAnimationName(0)}")
+                    Log.d("Choreographer Animator", "animation duration: ${getAnimationDuration(0)}")
                 }
                 updateBoneMatrices()
             }
             modelViewer.render(currentTime)
+
+            // Reset the root transform, then rotate it around the Z axis.
+            modelViewer.asset?.apply {
+                modelViewer.transformToUnitCube()
+                val rootTransform = this.root.getTransform()
+                val degrees = 20f * seconds.toFloat()
+                val zAxis = Float3(0f, 0f, 1f)
+                this.root.setTransform(rootTransform * rotation(zAxis, degrees))
+            }
         }
     }
 
@@ -45,13 +60,16 @@ class MainActivity : AppCompatActivity() {
         modelViewer = ModelViewer(surfaceView)
         surfaceView.setOnTouchListener(modelViewer)
         //loadGlb("DamagedHelmet")
+        Log.d("Main Activity", "load glTF model...")
         loadGltf("BusterDrone")
+        Log.d("Main Activity", "load environment...")
         loadEnvironment("venetian_crossroads_2k")
         modelViewer.scene.skybox = Skybox.Builder().build(modelViewer.engine)
     }
 
     override fun onResume() {
         super.onResume()
+        Log.d("Main Activity", "resume activity...")
         choreographer.postFrameCallback(frameCallback)
     }
 
