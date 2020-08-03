@@ -19,8 +19,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var modelViewer: ModelViewer
 
     private val frameCallback = object : Choreographer.FrameCallback {
+        private val startTime = System.nanoTime()
         override fun doFrame(currentTime: Long) {
+            val seconds = (currentTime - startTime).toDouble() / 1_000_000_000
             choreographer.postFrameCallback(this)
+            modelViewer.animator?.apply {
+                if (animationCount > 0) {
+                    applyAnimation(0, seconds.toFloat())
+                }
+                updateBoneMatrices()
+            }
             modelViewer.render(currentTime)
         }
     }
@@ -64,7 +72,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadGltf(name: String) {
-        val buffer = readAsset("model/${name}.gltf")
+        val buffer = readAsset("models/${name}.gltf")
         modelViewer.loadModelGltf(buffer) { uri -> readAsset("models/$uri") }
         modelViewer.transformToUnitCube()
     }
