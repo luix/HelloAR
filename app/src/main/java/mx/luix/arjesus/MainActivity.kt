@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Choreographer
 import android.view.SurfaceView
+import com.google.android.filament.Skybox
 import com.google.android.filament.utils.ModelViewer
 import com.google.android.filament.utils.Utils
+import java.nio.ByteBuffer
 
 //import com.google.ar.sceneform
 
@@ -33,6 +35,8 @@ class MainActivity : AppCompatActivity() {
         choreographer = Choreographer.getInstance()
         modelViewer = ModelViewer(surfaceView)
         surfaceView.setOnTouchListener(modelViewer)
+        loadGlb("DamagedHelmet")
+        modelViewer.scene.skybox = Skybox.Builder().build(modelViewer.engine)
     }
 
     override fun onResume() {
@@ -48,5 +52,18 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         choreographer.postFrameCallback(frameCallback)
+    }
+
+    private fun loadGlb(name: String) {
+        val buffer = readAsset("models/${name}.glb")
+        modelViewer.loadModelGlb(buffer)
+        modelViewer.transformToUnitCube()
+    }
+
+    private fun readAsset(assetName: String): ByteBuffer {
+        val input = assets.open(assetName)
+        val bytes = ByteArray(input.available())
+        input.read(bytes)
+        return ByteBuffer.wrap(bytes)
     }
 }
