@@ -36,7 +36,8 @@ class MainActivity : AppCompatActivity() {
         choreographer = Choreographer.getInstance()
         modelViewer = ModelViewer(surfaceView)
         surfaceView.setOnTouchListener(modelViewer)
-        loadGlb("DamagedHelmet")
+        //loadGlb("DamagedHelmet")
+        loadGltf("BusterDrone")
         loadEnvironment("venetian_crossroads_2k")
         modelViewer.scene.skybox = Skybox.Builder().build(modelViewer.engine)
     }
@@ -62,6 +63,12 @@ class MainActivity : AppCompatActivity() {
         modelViewer.transformToUnitCube()
     }
 
+    private fun loadGltf(name: String) {
+        val buffer = readAsset("model/${name}.gltf")
+        modelViewer.loadModelGltf(buffer) { uri -> readAsset("models/$uri") }
+        modelViewer.transformToUnitCube()
+    }
+
     private fun readAsset(assetName: String): ByteBuffer {
         val input = assets.open(assetName)
         val bytes = ByteArray(input.available())
@@ -71,7 +78,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadEnvironment(ibl: String) {
         // Create the indirect light source and add it to the scene.
-        var buffer = readAsset("envs/$ibl/{ibl}_ibl.ktx")
+        var buffer = readAsset("envs/$ibl/${ibl}_ibl.ktx")
         KtxLoader.createIndirectLight(modelViewer.engine, buffer).apply {
             intensity = 50_000f
             modelViewer.scene.indirectLight = this
