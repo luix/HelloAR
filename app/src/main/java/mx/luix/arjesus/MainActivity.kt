@@ -76,5 +76,11 @@ class MainActivity : AppCompatActivity() {
             intensity = 50_000f
             modelViewer.scene.indirectLight = this
         }
+
+        // Create the sky box and add it to the scene.
+        buffer = readAsset("envs/$ibl/${ibl}_skybox.ktx")
+        KtxLoader.createSkybox(modelViewer.engine, buffer).apply {
+            modelViewer.scene.skybox = this
+        }
     }
 }
