@@ -11,6 +11,16 @@ import java.nio.ByteBuffer
 
 //import com.google.ar.sceneform
 
+/**
+ * Getting Started with Filament on Android
+ *
+ * Filament is Google’s open source physically-based renderer. It’s great for when you need to add
+ * 3D capabilities to your application without the overhead of an entire game engine.
+ *
+ * @author Philip Rideout
+ *
+ * @link   https://medium.com/@philiprideout/getting-started-with-filament-on-android-d10b16f0ec67
+ */
 class MainActivity : AppCompatActivity() {
 
     private lateinit var surfaceView: SurfaceView
@@ -21,14 +31,15 @@ class MainActivity : AppCompatActivity() {
         private val startTime = System.nanoTime()
         override fun doFrame(currentTime: Long) {
             val seconds = (currentTime - startTime).toDouble() / 1_000_000_000
-            Log.d("Choreographer Animator", "seconds: $seconds")
+            // Log.d("Choreographer Animator", "seconds: $seconds")
             choreographer.postFrameCallback(this)
             modelViewer.animator?.apply {
-                Log.d("Choreographer Animator", "animation count: $animationCount")
+                // Log.d("Choreographer Animator", "animation count: $animationCount")
                 if (animationCount > 0) {
                     applyAnimation(0, seconds.toFloat())
-                    Log.d("Choreographer Animator", "animation name: ${getAnimationName(0)}")
-                    Log.d("Choreographer Animator", "animation duration: ${getAnimationDuration(0)}")
+                    // CINEMA_4D_Basis
+                    // Log.d("Choreographer Animator", "animation name: ${getAnimationName(0)}")
+                    // Log.d("Choreographer Animator", "animation duration: ${getAnimationDuration(0)}")
                 }
                 updateBoneMatrices()
             }
@@ -57,9 +68,7 @@ class MainActivity : AppCompatActivity() {
         modelViewer = ModelViewer(surfaceView)
         surfaceView.setOnTouchListener(modelViewer)
         //loadGlb("DamagedHelmet")
-        Log.d("Main Activity", "load glTF model...")
         loadGltf("BusterDrone")
-        Log.d("Main Activity", "load environment...")
         loadEnvironment("venetian_crossroads_2k")
         modelViewer.scene.skybox = Skybox.Builder().build(modelViewer.engine)
 
@@ -81,7 +90,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        Log.d("Main Activity", "resume activity...")
         choreographer.postFrameCallback(frameCallback)
     }
 
