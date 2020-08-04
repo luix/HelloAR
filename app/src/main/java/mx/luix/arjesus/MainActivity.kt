@@ -62,6 +62,21 @@ class MainActivity : AppCompatActivity() {
         Log.d("Main Activity", "load environment...")
         loadEnvironment("venetian_crossroads_2k")
         modelViewer.scene.skybox = Skybox.Builder().build(modelViewer.engine)
+
+        // Hide the floor disk and disable the emissive tail lights on the back of the drone.
+        val asset = modelViewer.asset!!
+        val rm = modelViewer.engine.renderableManager
+        for (entity in asset.entities) {
+            val renderable = rm.getInstance(entity)
+            if (renderable == 0) {
+                continue
+            }
+            if (asset.getName(entity) == "Scheibe_Boden_0") {
+                rm.setLayerMask(renderable, 0xff, 0x00)
+            }
+            val material = rm.getMaterialInstanceAt(renderable, 0)
+            material.setParameter("emissiveFactor", 0f, 0f, 0f)
+        }
     }
 
     override fun onResume() {
@@ -113,7 +128,7 @@ class MainActivity : AppCompatActivity() {
             modelViewer.scene.skybox = this
         }
     }
-    
+
     private fun Int.getTransform(): Mat4 {
         val tm = modelViewer.engine.transformManager
         return Mat4.of(*tm.getTransform(tm.getInstance(this), null))
