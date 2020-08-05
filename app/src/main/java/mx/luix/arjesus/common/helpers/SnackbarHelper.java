@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.google.ar.core.examples.java.common.helpers;
+package mx.luix.arjesus.common.helpers;
 
 import android.app.Activity;
 import android.support.design.widget.BaseTransientBottomBar;
@@ -96,7 +96,7 @@ public final class SnackbarHelper {
   }
 
   private void show(
-      final Activity activity, final String message, final DismissBehavior dismissBehavior) {
+          final Activity activity, final String message, final DismissBehavior dismissBehavior) {
     activity.runOnUiThread(
         new Runnable() {
           @Override
