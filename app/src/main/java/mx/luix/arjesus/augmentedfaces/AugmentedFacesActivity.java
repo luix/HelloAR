@@ -19,9 +19,11 @@ package mx.luix.arjesus.augmentedfaces;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+//import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.ar.core.ArCoreApk;
 import com.google.ar.core.AugmentedFace;
@@ -32,14 +34,6 @@ import com.google.ar.core.Config.AugmentedFaceMode;
 import com.google.ar.core.Frame;
 import com.google.ar.core.Session;
 import com.google.ar.core.TrackingState;
-import com.google.ar.core.examples.java.common.helpers.CameraPermissionHelper;
-import com.google.ar.core.examples.java.common.helpers.DisplayRotationHelper;
-import com.google.ar.core.examples.java.common.helpers.FullScreenHelper;
-import com.google.ar.core.examples.java.common.helpers.SnackbarHelper;
-import com.google.ar.core.examples.java.common.helpers.TapHelper;
-import com.google.ar.core.examples.java.common.helpers.TrackingStateHelper;
-import com.google.ar.core.examples.java.common.rendering.BackgroundRenderer;
-import com.google.ar.core.examples.java.common.rendering.ObjectRenderer;
 import com.google.ar.core.exceptions.CameraNotAvailableException;
 import com.google.ar.core.exceptions.UnavailableApkTooOldException;
 import com.google.ar.core.exceptions.UnavailableArcoreNotInstalledException;
@@ -53,6 +47,16 @@ import java.util.EnumSet;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+
+import mx.luix.arjesus.R;
+import mx.luix.arjesus.common.helpers.CameraPermissionHelper;
+import mx.luix.arjesus.common.helpers.DisplayRotationHelper;
+import mx.luix.arjesus.common.helpers.FullScreenHelper;
+import mx.luix.arjesus.common.helpers.SnackbarHelper;
+import mx.luix.arjesus.common.helpers.TapHelper;
+import mx.luix.arjesus.common.helpers.TrackingStateHelper;
+import mx.luix.arjesus.common.rendering.BackgroundRenderer;
+import mx.luix.arjesus.common.rendering.ObjectRenderer;
 
 /**
  * This is a simple example that shows how to create an augmented reality (AR) application using the
@@ -87,7 +91,7 @@ public class AugmentedFacesActivity extends AppCompatActivity implements GLSurfa
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
+    setContentView(R.layout.activity_augmented_faces);
     surfaceView = findViewById(R.id.surfaceview);
     displayRotationHelper = new DisplayRotationHelper(/*context=*/ this);
 
