@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
-import static com.google.ar.core.examples.java.common.rendering.ShaderUtil.loadGLShader;
+import static mx.luix.arjesus.common.rendering.ShaderUtil.loadGLShader;
 
 /** Renders an AugmentedFace on screen in OpenGL. */
 public class AugmentedFaceRenderer {
