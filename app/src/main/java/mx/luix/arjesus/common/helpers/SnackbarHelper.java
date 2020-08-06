@@ -15,8 +15,10 @@
 package mx.luix.arjesus.common.helpers;
 
 import android.app.Activity;
-import android.support.design.widget.BaseTransientBottomBar;
-import android.support.design.widget.Snackbar;
+//import android.support.design.widget.BaseTransientBottomBar;
+//import android.support.design.widget.Snackbar;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import android.view.View;
 import android.widget.TextView;
 
@@ -84,9 +86,9 @@ public final class SnackbarHelper {
   /**
    * Sets the view that will be used to find a suitable parent view to hold the Snackbar view.
    *
-   * <p>To use the root layout ({@link android.R.id.content}), pass in {@code null}.
+   * <p>To use the root layout ({@ link android.R.id.content}), pass in {@code null}.
    *
-   * @param snackbarView the view to pass to {@link
+   * @param snackbarView the view to pass to {@ link
    *     com.google.android.material.snackbar.Snackbar#make(…)} which will be used to find a
    *     suitable parent, which is a {@link androidx.coordinatorlayout.widget.CoordinatorLayout}, or
    *     the window decor's content view, whichever comes first.
@@ -132,7 +134,8 @@ public final class SnackbarHelper {
             ((TextView)
                     messageSnackbar
                         .getView()
-                        .findViewById(android.support.design.R.id.snackbar_text))
+                            //.findViewById(android.support.design.R.id.snackbar_text))
+                            .findViewById(com.google.android.material.R.id.snackbar_text))
                 .setMaxLines(maxLines);
             messageSnackbar.show();
           }
