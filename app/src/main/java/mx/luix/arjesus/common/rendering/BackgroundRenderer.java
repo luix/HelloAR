@@ -18,7 +18,9 @@ import android.content.Context;
 import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
-import android.support.annotation.NonNull;
+//import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.google.ar.core.Coordinates2d;
 import com.google.ar.core.Frame;
@@ -167,7 +169,7 @@ public class BackgroundRenderer {
    * accurately follow static physical objects. This must be called <b>before</b> drawing virtual
    * content.
    *
-   * @param frame The current {@code Frame} as returned by {@link Session#update()}.
+   * @param frame The current {@code Frame} as returned by {@ link Session#update()}.
    * @param debugShowDepthMap Toggles whether to show the live camera feed or latest depth image.
    */
   public void draw(@NonNull Frame frame, boolean debugShowDepthMap) {
