@@ -77,16 +77,18 @@ class AugmentedFacesActivity : AppCompatActivity(), GLSurfaceView.Renderer {
 
         // Set up tap listener.
         tapHelper = TapHelper( /*context=*/this)
-        
-        surfaceView.setOnTouchListener(tapHelper)
+        surfaceView?.apply {
+            setOnTouchListener(tapHelper)
 
-        // Set up renderer.
-        surfaceView.setPreserveEGLContextOnPause(true)
-        surfaceView.setEGLContextClientVersion(2)
-        surfaceView.setEGLConfigChooser(8, 8, 8, 8, 16, 0) // Alpha used for plane blending.
-        surfaceView.setRenderer(this)
-        surfaceView.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY)
-        surfaceView.setWillNotDraw(false)
+            // Set up renderer.
+            preserveEGLContextOnPause = true
+            setEGLContextClientVersion(2)
+            setEGLConfigChooser(8, 8, 8, 8, 16, 0) // Alpha used for plane blending.
+// Todo:    setRenderer(this)  // GLSurfaceView.Renderer
+            renderMode = GLSurfaceView.RENDERMODE_CONTINUOUSLY
+            setWillNotDraw(false)
+        }
+
         installRequested = false
     }
 

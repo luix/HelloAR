@@ -8,7 +8,7 @@ import android.opengl.Matrix
 import com.google.ar.core.AugmentedFace
 import mx.luix.arjesus.common.rendering.ShaderUtil.loadGLShader
 import java.io.IOException
- 
+
 /** Renders an AugmentedFace on screen in OpenGL.  */
 class AugmentedFaceRenderer {
     private var modelViewUniform = 0
