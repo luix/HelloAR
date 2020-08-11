@@ -30,10 +30,13 @@ class DepthSettings {
             SHARED_PREFERENCES_ID,
             Context.MODE_PRIVATE
         )
-        useDepthForOcclusion = sharedPreferences.getBoolean(
+        val value: Boolean? = sharedPreferences?.getBoolean(
             SHARED_PREFERENCES_USE_DEPTH_FOR_OCCLUSION,
             false
         )
+        if (value != null) {
+            useDepthForOcclusion = value
+        }
     }
 
     /** Retrieves whether depth-based occlusion is enabled.  */
