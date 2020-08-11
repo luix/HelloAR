@@ -77,6 +77,7 @@ class AugmentedFacesActivity : AppCompatActivity(), GLSurfaceView.Renderer {
 
         // Set up tap listener.
         tapHelper = TapHelper( /*context=*/this)
+        
         surfaceView.setOnTouchListener(tapHelper)
 
         // Set up renderer.
