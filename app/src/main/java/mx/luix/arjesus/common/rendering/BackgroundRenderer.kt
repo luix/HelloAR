@@ -76,9 +76,9 @@ class BackgroundRenderer {
         val bbCoords =
             ByteBuffer.allocateDirect(QUAD_COORDS.size * FLOAT_SIZE)
         bbCoords.order(ByteOrder.nativeOrder())
-        quadCoords = bbCoords.asFloatBuffer()
-        quadCoords.put(QUAD_COORDS)
-        quadCoords.position(0)
+        quadCoords = bbCoords?.asFloatBuffer()
+        quadCoords?.put(QUAD_COORDS)
+        quadCoords?.position(0)
         val bbTexCoordsTransformed =
             ByteBuffer.allocateDirect(numVertices * TEXCOORDS_PER_VERTEX * FLOAT_SIZE)
         bbTexCoordsTransformed.order(ByteOrder.nativeOrder())
