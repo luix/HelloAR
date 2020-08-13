@@ -44,6 +44,7 @@ import java.util.*
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
+
 //import android.support.v7.app.AppCompatActivity;
 /**
  * This is a simple example that shows how to create an augmented reality (AR) application using the
@@ -52,7 +53,9 @@ import javax.microedition.khronos.opengles.GL10
  */
 class AugmentedFacesActivity : AppCompatActivity(), GLSurfaceView.Renderer {
     // Rendering. The Renderers are created here, and initialized when the GL surface is created.
-    private var surfaceView: GLSurfaceView? = null
+    //private var surfaceView: GLSurfaceView? = null
+    private lateinit var surfaceView: GLSurfaceView
+
     private var installRequested = false
     private var session: Session? = null
     private val messageSnackbarHelper = SnackbarHelper()
@@ -71,23 +74,25 @@ class AugmentedFacesActivity : AppCompatActivity(), GLSurfaceView.Renderer {
     private val leftEarMatrix = FloatArray(16)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Enable AR related functionality on ARCore supported devices only.
+        // maybeEnableArButton();
+
         setContentView(R.layout.activity_augmented_faces)
         surfaceView = findViewById(R.id.surfaceview)
         displayRotationHelper = DisplayRotationHelper( /*context=*/this)
 
         // Set up tap listener.
         tapHelper = TapHelper( /*context=*/this)
-        surfaceView?.apply {
-            setOnTouchListener(tapHelper)
+        surfaceView.setOnTouchListener(tapHelper)
 
             // Set up renderer.
-            preserveEGLContextOnPause = true
-            setEGLContextClientVersion(2)
-            setEGLConfigChooser(8, 8, 8, 8, 16, 0) // Alpha used for plane blending.
-// Todo:    setRenderer(this)  // GLSurfaceView.Renderer
-            renderMode = GLSurfaceView.RENDERMODE_CONTINUOUSLY
-            setWillNotDraw(false)
-        }
+        surfaceView.preserveEGLContextOnPause = true
+        surfaceView.setEGLContextClientVersion(2)
+        surfaceView.setEGLConfigChooser(8, 8, 8, 8, 16, 0) // Alpha used for plane blending.
+        surfaceView.setRenderer(this)  // GLSurfaceView.Renderer
+        surfaceView.renderMode = GLSurfaceView.RENDERMODE_CONTINUOUSLY
+        surfaceView.setWillNotDraw(false)
 
         installRequested = false
     }
@@ -152,13 +157,13 @@ class AugmentedFacesActivity : AppCompatActivity(), GLSurfaceView.Renderer {
 
         // Note that order matters - see the note in onPause(), the reverse applies here.
         try {
-            session!!.resume()
+            session?.resume()
         } catch (e: CameraNotAvailableException) {
             messageSnackbarHelper.showError(this, "Camera not available. Try restarting the app.")
             session = null
             return
         }
-        surfaceView!!.onResume()
+        surfaceView.onResume()
         displayRotationHelper!!.onResume()
     }
 
@@ -169,8 +174,8 @@ class AugmentedFacesActivity : AppCompatActivity(), GLSurfaceView.Renderer {
             // to query the session. If Session is paused before GLSurfaceView, GLSurfaceView may
             // still call session.update() and get a SessionPausedException.
             displayRotationHelper!!.onPause()
-            surfaceView!!.onPause()
-            session!!.pause()
+            surfaceView.onPause()
+            session?.pause()
         }
     }
 
@@ -253,7 +258,7 @@ class AugmentedFacesActivity : AppCompatActivity(), GLSurfaceView.Renderer {
         // the video background can be properly adjusted.
         displayRotationHelper!!.updateSessionIfNeeded(session!!)
         try {
-            session!!.setCameraTextureName(backgroundRenderer.textureId)
+            session?.setCameraTextureName(backgroundRenderer.textureId)
 
             // Obtain the current frame from ARSession. When the configuration is set to
             // UpdateMode.BLOCKING (it is by default), this will throttle the rendering to the
@@ -346,7 +351,7 @@ class AugmentedFacesActivity : AppCompatActivity(), GLSurfaceView.Renderer {
     private fun configureSession() {
         val config = Config(session)
         config.augmentedFaceMode = AugmentedFaceMode.MESH3D
-        session!!.configure(config)
+        session?.configure(config)
     }
 
     companion object {
